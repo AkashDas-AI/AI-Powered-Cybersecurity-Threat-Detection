@@ -35,8 +35,8 @@ Important notice on project nature and operational boundaries:
 
 The system includes an interactive Streamlit web application for evaluating model metrics, inspecting anomaly score trade-offs, and exploring alert triage tables.
 
-Screenshot Placeholder Notice:
-The image links below reference repository-relative paths within the `images/` directory. Because image binaries are not automatically captured during headless testing, these links serve as structured placeholders until actual screenshots are captured from the running Streamlit dashboard (`http://localhost:8501`) and placed in `images/` with the specified filenames. See `images/README.md` for capture guidelines and naming conventions. Once added, GitHub will display them directly.
+Screenshot Reference Notice:
+The image links below reference repository-relative paths within the `images/` directory capturing the live Streamlit dashboard interfaces (`http://localhost:8501`).
 
 ### 1. System Overview Interface
 Overview of decoupled pipeline architecture, security disclaimers, and module summaries.
