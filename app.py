@@ -129,7 +129,7 @@ st.sidebar.caption("Designed for Reproducibility & Auditability")
 # ---------------------------------------------------------
 if nav_choice == "System Overview":
     st.title("🛡️ AI-Powered Cybersecurity Threat Detection System")
-    st.markdown("### Production-Grade Hybrid Security Architecture")
+    st.markdown("### Hybrid Threat Detection Prototype Architecture")
 
     st.info(
         "**System Boundary & Operational Disclaimer:**\n\n"

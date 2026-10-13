@@ -1,6 +1,6 @@
 # AI-Powered Cybersecurity Threat Detection System
 
-A modular, reproducible machine learning and security telemetry evaluation system demonstrating two decoupled workflows:
+An applied machine learning portfolio and research prototype demonstrating two decoupled security analysis workflows:
 1. Supervised and Novelty Machine Learning Pipeline: Evaluates tabular network flow traffic using the authentic UNSW-NB15 benchmark, featuring leak-free threshold calibration, parameter-invariant models, and hybrid anomaly gating.
 2. Deterministic Rule-Based SIEM Engine: Ingests structured host and authentication telemetry to detect brute-force attacks, data exfiltration, reconnaissance scans, and offensive tool user-agents.
 
@@ -15,24 +15,28 @@ Key capabilities include:
 - Methodological Rigor: Threshold selection conducted exclusively on internal training partitions with zero test set exposure. A parameter-invariant frozen model deployment eliminates calibration drift.
 - Unsupervised Novelty Anomaly Detection: An Isolation Forest detector fitted exclusively on benign traffic (label = 0) to detect atypical deviations.
 - Hybrid Confirmation Policy: An ambiguous-band confirmation mechanism (0.40 <= P < 0.76) that captures missed attacks while constraining false alarm inflation.
-- Deterministic Rule Engine: Production-grade SIEM rules evaluating host telemetry with structured triage metadata.
+- Deterministic Rule Engine: Rule-based triage engine evaluating simulated host telemetry with structured security metadata.
 - Interactive Web Dashboard: A Streamlit interface providing comparative analytics, confusion matrices, ROC/PR curves, and alert triage tables.
 
 ---
 
-## Operational Scope and System Boundaries
+## Project Nature, Operational Boundaries, and Limitations
 
-Notice on prototype boundaries and production constraints:
-- Decoupled Architectures: Network flow classifications on the UNSW-NB15 benchmark are separate from host-level SIEM telemetry. The schemas are distinct and evaluated independently.
-- Offline and Nearline Processing: This prototype operates on tabular records and batch event logs. It does not perform live kernel-level packet capture, inline routing, or automated firewall blocking.
-- Fictional Demonstration Telemetry: Simulated security event records located in `data/sample/` are fictional demonstration mocks generated for reproducible testing.
-- Benchmark Generalization Caveat: Performance metrics on benchmark datasets provide a standardized baseline but do not guarantee identical detection rates against encrypted payloads, zero-day vulnerabilities, or evasive malware in live corporate networks.
+Important notice on project nature and operational boundaries:
+- Portfolio and Research Prototype: This repository is an applied machine learning and security engineering portfolio and research prototype. It is not an enterprise commercial security software product, and it does not connect to live corporate network taps or enterprise SIEM platforms.
+- Decoupled Architectures: Network flow classifications on the UNSW-NB15 benchmark are completely separate from simulated host-level authentication and probe telemetry. The schemas are distinct and evaluated independently.
+- Offline Batch Processing: This prototype operates on tabular benchmark records and batch event logs. It does not perform live kernel-level packet capture, inline network packet inspection, automated intrusion blocking, or firewall rule reconfiguration.
+- Fictional Demonstration Telemetry: All simulated security event records located in `data/sample/` are fictional synthetic demonstration events generated for reproducible testing and rule verification.
+- Benchmark Generalization Caveat: Benchmark performance metrics on tabular network flows provide a standardized experimental evaluation but do not guarantee identical detection rates against encrypted payloads, zero-day vulnerabilities, or evasive techniques in live enterprise networks.
 
 ---
 
 ## User Interface and Dashboard Walkthrough
 
-The system includes a Streamlit web application for security analysts and managers. The visual walkthrough below illustrates each module. Place corresponding screenshot files in the `images/` directory to display them directly on GitHub.
+The system includes an interactive Streamlit web application for evaluating model metrics, inspecting anomaly score trade-offs, and exploring alert triage tables.
+
+Screenshot Placeholder Notice:
+The image links below reference repository-relative paths within the `images/` directory. Because image binaries are not automatically captured during headless testing, these links serve as structured placeholders until actual screenshots are captured from the running Streamlit dashboard (`http://localhost:8501`) and placed in `images/` with the specified filenames. See `images/README.md` for capture guidelines and naming conventions. Once added, GitHub will display them directly.
 
 ### 1. System Overview Interface
 Overview of decoupled pipeline architecture, security disclaimers, and module summaries.

@@ -27,7 +27,7 @@ src/
 │   ├── __init__.py
 │   ├── trainer.py
 │   └── loss.py
-├── inference/           # Real-time and batch scoring pipelines
+├── inference/           # Offline and batch scoring pipelines
 │   ├── __init__.py
 │   ├── engine.py
 │   └── explainer.py
@@ -68,7 +68,7 @@ src/
 - **`loss.py`:** Custom loss functions (e.g., Focal Loss, Weighted Cross-Entropy).
 
 ### Module 5: Inference & Explainability (`src/inference/`)
-- **`engine.py`:** Real-time scoring loop that processes feature vectors and outputs threat predictions in sub-millisecond latencies.
+- **`engine.py`:** Batch scoring loop that processes feature vectors and outputs threat predictions.
 - **`explainer.py`:** Computes feature contributions (SHAP values or feature attribution weights) explaining *why* a flow was flagged.
 
 ### Module 6: Alerting & Dispatch (`src/alerting/`)

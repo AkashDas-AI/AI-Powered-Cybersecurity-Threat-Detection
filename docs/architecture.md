@@ -27,7 +27,7 @@ flowchart TD
     subgraph Response & Observability
         H --> I[Threat Scoring & Alerting Service]
         H --> J[Metric Dashboard & Telemetry Logs]
-        I --> K[Automated Mitigation Trigger / SIEM Integration]
+        I --> K[Alert Export / Simulated SIEM Triage]
     end
 ```
 
@@ -49,7 +49,7 @@ flowchart TD
 - **Ensemble Fusion:** Combines anomaly scores with classification probabilities for calibrated confidence scores and reduced false-positive rates.
 
 ### 2.4 Alerting & Reporting Layer
-- **Responsibility:** Emit standardized threat incident events (JSON/CEF/Syslog) enriched with threat severity, confidence rating, contributing features (explainability via SHAP/Feature Importances), and recommended mitigations.
+- **Responsibility:** Emit standardized threat incident events (JSON/CEF/Syslog) enriched with threat severity, confidence rating, contributing features (explainability via SHAP/Feature Importances), and remediation context.
 
 ---
 
