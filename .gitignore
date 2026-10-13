@@ -1,0 +1,64 @@
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+secrets.json
+
+# IDE & Editor Specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Large Datasets & Processed Data (Keep folder structure via .gitkeep)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Machine Learning Models & Large Artifacts
+artifacts/*.joblib
+artifacts/*.pkl
+artifacts/*.pt
+artifacts/*.pth
+artifacts/*.onnx
+artifacts/*.h5
+artifacts/*.bak
+*.bak
+artifacts/metrics_sample.json
+artifacts/model_sample.joblib
+!artifacts/.gitkeep
+
+# Generated Outputs & Alert Logs
+outputs/figures/*
+!outputs/figures/.gitkeep
+outputs/alerts/*
+!outputs/alerts/.gitkeep
+outputs/reports/*
+!outputs/reports/.gitkeep
+!outputs/reports/*.md
+!outputs/reports/*.json
+
+# Streamlit Local Cache
+.streamlit/

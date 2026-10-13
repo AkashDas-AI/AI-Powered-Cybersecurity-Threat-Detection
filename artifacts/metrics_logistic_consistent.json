@@ -1,0 +1,71 @@
+{
+  "accuracy": 0.86708691638731,
+  "precision": 0.8722800788100548,
+  "recall": 0.888732021530045,
+  "f1_score": 0.8804292004938865,
+  "false_positive_rate": 0.15943243243243244,
+  "confusion_matrix": {
+    "true_negatives": 31101,
+    "false_positives": 5899,
+    "false_negatives": 5044,
+    "true_positives": 40288
+  },
+  "total_samples": 82332,
+  "classification_report": {
+    "Normal": {
+      "precision": 0.8604509614054503,
+      "recall": 0.8405675675675676,
+      "f1-score": 0.85039305489097,
+      "support": 37000.0
+    },
+    "Attack": {
+      "precision": 0.8722800788100548,
+      "recall": 0.888732021530045,
+      "f1-score": 0.8804292004938865,
+      "support": 45332.0
+    },
+    "accuracy": 0.86708691638731,
+    "macro avg": {
+      "precision": 0.8663655201077525,
+      "recall": 0.8646497945488063,
+      "f1-score": 0.8654111276924282,
+      "support": 82332.0
+    },
+    "weighted avg": {
+      "precision": 0.8669640735633662,
+      "recall": 0.86708691638731,
+      "f1-score": 0.8669309569517898,
+      "support": 82332.0
+    }
+  },
+  "roc_auc": 0.9553766422382852,
+  "average_precision": 0.9659683266384784,
+  "decision_threshold": 0.76,
+  "classifier": "LogisticRegression",
+  "threshold_type": "consistent_calibrated_0.7600",
+  "calibration_strategy": "frozen_80_20_split",
+  "train_time_sec": 8.15,
+  "eval_time_sec": 0.26,
+  "dataset_source": "authentic_unsw_nb15",
+  "is_sample_evaluation": false,
+  "calibration_details": {
+    "train_samples": 140272,
+    "calibration_samples": 35069,
+    "selected_threshold": 0.76,
+    "objective": "Minimize FPR subject to Recall >= 90.0%",
+    "calibration_metrics": {
+      "threshold": 0.76,
+      "accuracy": 0.918047278222932,
+      "precision": 0.9708032470735973,
+      "recall": 0.9068666471155055,
+      "f1_score": 0.9377463934497249,
+      "false_positive_rate": 0.058125,
+      "confusion_matrix": {
+        "true_negatives": 10549,
+        "false_positives": 651,
+        "false_negatives": 2223,
+        "true_positives": 21646
+      }
+    }
+  }
+}

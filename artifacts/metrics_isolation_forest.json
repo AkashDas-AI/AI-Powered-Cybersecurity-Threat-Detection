@@ -1,0 +1,81 @@
+{
+  "accuracy": 0.7135986007870573,
+  "precision": 0.7965912189800927,
+  "recall": 0.6443792464484249,
+  "f1_score": 0.7124460379015145,
+  "false_positive_rate": 0.20159459459459458,
+  "roc_auc": 0.7899459343200079,
+  "average_precision": 0.8106161436406799,
+  "confusion_matrix": {
+    "true_negatives": 29541,
+    "false_positives": 7459,
+    "false_negatives": 16121,
+    "true_positives": 29211
+  },
+  "total_samples": 82332,
+  "classification_report": {
+    "Normal": {
+      "precision": 0.6469493232885112,
+      "recall": 0.7984054054054054,
+      "f1-score": 0.7147419612397474,
+      "support": 37000.0
+    },
+    "Attack": {
+      "precision": 0.7965912189800927,
+      "recall": 0.6443792464484249,
+      "f1-score": 0.7124460379015146,
+      "support": 45332.0
+    },
+    "accuracy": 0.7135986007870573,
+    "macro avg": {
+      "precision": 0.7217702711343019,
+      "recall": 0.7213923259269152,
+      "f1-score": 0.7135939995706311,
+      "support": 82332.0
+    },
+    "weighted avg": {
+      "precision": 0.7293421525103297,
+      "recall": 0.7135986007870573,
+      "f1-score": 0.7134778258274076,
+      "support": 82332.0
+    }
+  },
+  "decision_threshold": -0.0428,
+  "detector": "IsolationForest",
+  "threshold_type": "val_selected_-0.0428",
+  "dataset_source": "authentic_unsw_nb15",
+  "is_sample_evaluation": false,
+  "eval_time_sec": 0.42,
+  "score_distribution": {
+    "benign": {
+      "count": 37000,
+      "mean": -0.08414648649428724,
+      "std": 0.05439830098928665,
+      "min": -0.16918141292535266,
+      "p25": -0.12400291578031741,
+      "median": -0.10033168454906374,
+      "p75": -0.05322018097503711,
+      "p90": 0.004125962688632222,
+      "p95": 0.02193074827089316,
+      "p99": 0.06587804363767802,
+      "max": 0.1329339655651306
+    },
+    "attack": {
+      "count": 45332,
+      "mean": -0.014417562573081374,
+      "std": 0.06751476691116023,
+      "min": -0.13989788910663348,
+      "p25": -0.06222811937980145,
+      "median": -0.018372156610896084,
+      "p75": 0.032263644264749036,
+      "p90": 0.08385266935127578,
+      "p95": 0.10454362268084572,
+      "p99": 0.12305371522994113,
+      "max": 0.14606033616233416
+    }
+  },
+  "train_time_sec": 0.4,
+  "training_subset": "benign_only",
+  "training_samples": 44800,
+  "random_state": 42
+}

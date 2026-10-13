@@ -1,0 +1,50 @@
+{
+  "accuracy": 0.8098916581645047,
+  "precision": 0.7534672405547584,
+  "recall": 0.9731315626930204,
+  "f1_score": 0.8493261455525607,
+  "false_positive_rate": 0.3901081081081081,
+  "confusion_matrix": {
+    "true_negatives": 22566,
+    "false_positives": 14434,
+    "false_negatives": 1218,
+    "true_positives": 44114
+  },
+  "total_samples": 82332,
+  "classification_report": {
+    "Normal": {
+      "precision": 0.9487891019172553,
+      "recall": 0.6098918918918919,
+      "f1-score": 0.7424980257962622,
+      "support": 37000.0
+    },
+    "Attack": {
+      "precision": 0.7534672405547584,
+      "recall": 0.9731315626930204,
+      "f1-score": 0.8493261455525607,
+      "support": 45332.0
+    },
+    "accuracy": 0.8098916581645047,
+    "macro avg": {
+      "precision": 0.8511281712360068,
+      "recall": 0.7915117272924561,
+      "f1-score": 0.7959120856744115,
+      "support": 82332.0
+    },
+    "weighted avg": {
+      "precision": 0.8412448831531697,
+      "recall": 0.8098916581645047,
+      "f1-score": 0.801317589572103,
+      "support": 82332.0
+    }
+  },
+  "roc_auc": 0.956112262443331,
+  "average_precision": 0.9664411940147323,
+  "decision_threshold": 0.5,
+  "classifier": "LogisticRegression",
+  "threshold_type": "default_0.5",
+  "train_time_sec": 8.38,
+  "eval_time_sec": 0.2,
+  "dataset_source": "authentic_unsw_nb15",
+  "is_sample_evaluation": false
+}

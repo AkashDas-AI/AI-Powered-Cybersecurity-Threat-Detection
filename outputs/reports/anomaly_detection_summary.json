@@ -1,0 +1,837 @@
+{
+  "metadata": {
+    "training_dataset": "data\\raw\\UNSW_NB15_training-set.csv",
+    "testing_dataset": "data\\raw\\UNSW_NB15_testing-set.csv",
+    "benign_training_samples": 44800,
+    "validation_samples": 35069,
+    "test_samples": 82332,
+    "random_state": 42
+  },
+  "threshold_selection": {
+    "selected_threshold": -0.0428,
+    "objective_rule": "Control benign FPR <= 15.0% while maximizing attack recall",
+    "validation_metrics": {
+      "threshold": -0.0428,
+      "accuracy": 0.6847643217656619,
+      "precision": 0.89671826625387,
+      "recall": 0.606728392475596,
+      "f1_score": 0.7237562157974962,
+      "false_positive_rate": 0.14892857142857144,
+      "confusion_matrix": {
+        "true_negatives": 9532,
+        "false_positives": 1668,
+        "false_negatives": 9387,
+        "true_positives": 14482
+      }
+    }
+  },
+  "policy_selection": {
+    "selected_candidate_id": "band_confirmation_0.40",
+    "selected_policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+    "selected_policy_type": "band_confirmation",
+    "selected_band_low": 0.4,
+    "selected_band_high": 0.76,
+    "selected_sup_threshold": 0.76,
+    "selected_anomaly_threshold": -0.0428,
+    "objective_rule": "Maximize attack recall subject to validation benign FPR <= 7.50% (fallback=False)",
+    "objective_name": "max_recall_constrained_fpr",
+    "max_val_fpr_constraint": 0.075,
+    "fallback_used": false,
+    "validation_metrics_selected": {
+      "policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+      "accuracy": 0.9204140408908152,
+      "precision": 0.9632934763495692,
+      "recall": 0.9180527043445473,
+      "f1_score": 0.9401291374391316,
+      "false_positive_rate": 0.07455357142857143,
+      "confusion_matrix": {
+        "true_negatives": 10365,
+        "false_positives": 835,
+        "false_negatives": 1956,
+        "true_positives": 21913
+      }
+    },
+    "candidate_sweep": [
+      {
+        "candidate_id": "supervised_baseline",
+        "policy_type": "supervised_baseline",
+        "policy_name": "Supervised Baseline (LR, th=0.76)",
+        "band_low": null,
+        "band_high": null,
+        "metrics": {
+          "policy_name": "Supervised Baseline (LR, th=0.76)",
+          "accuracy": 0.918047278222932,
+          "precision": 0.9708032470735973,
+          "recall": 0.9068666471155055,
+          "f1_score": 0.9377463934497249,
+          "false_positive_rate": 0.058125,
+          "confusion_matrix": {
+            "true_negatives": 10549,
+            "false_positives": 651,
+            "false_negatives": 2223,
+            "true_positives": 21646
+          }
+        },
+        "is_eligible": true,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 0,
+        "recovery_rate_on_val": 0.0,
+        "new_fp_on_val": 0,
+        "fpr_delta_on_val": 0.0
+      },
+      {
+        "candidate_id": "cascaded_or",
+        "policy_type": "cascaded_or",
+        "policy_name": "Hybrid Policy: Cascaded OR",
+        "band_low": 0.0,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Cascaded OR",
+          "accuracy": 0.8861387550258063,
+          "precision": 0.9119890556338612,
+          "recall": 0.92165570405128,
+          "f1_score": 0.9167968994186411,
+          "false_positive_rate": 0.18955357142857143,
+          "confusion_matrix": {
+            "true_negatives": 9077,
+            "false_positives": 2123,
+            "false_negatives": 1870,
+            "true_positives": 21999
+          }
+        },
+        "is_eligible": false,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 353,
+        "recovery_rate_on_val": 0.1587944219523167,
+        "new_fp_on_val": 1472,
+        "fpr_delta_on_val": 0.13142857142857142
+      },
+      {
+        "candidate_id": "band_confirmation_0.20",
+        "policy_type": "band_confirmation",
+        "policy_name": "Hybrid Policy: Band Confirmation (0.20 <= P < 0.76)",
+        "band_low": 0.2,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.20 <= P < 0.76)",
+          "accuracy": 0.9199292822720921,
+          "precision": 0.9606719454044359,
+          "recall": 0.9200217855796221,
+          "f1_score": 0.9399075500770416,
+          "false_positive_rate": 0.08026785714285714,
+          "confusion_matrix": {
+            "true_negatives": 10301,
+            "false_positives": 899,
+            "false_negatives": 1909,
+            "true_positives": 21960
+          }
+        },
+        "is_eligible": false,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 314,
+        "recovery_rate_on_val": 0.14125056230319388,
+        "new_fp_on_val": 248,
+        "fpr_delta_on_val": 0.022142857142857138
+      },
+      {
+        "candidate_id": "band_confirmation_0.30",
+        "policy_type": "band_confirmation",
+        "policy_name": "Hybrid Policy: Band Confirmation (0.30 <= P < 0.76)",
+        "band_low": 0.3,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.30 <= P < 0.76)",
+          "accuracy": 0.9202429496136189,
+          "precision": 0.9621458022633564,
+          "recall": 0.918974401943944,
+          "f1_score": 0.9400647138234727,
+          "false_positive_rate": 0.07705357142857143,
+          "confusion_matrix": {
+            "true_negatives": 10337,
+            "false_positives": 863,
+            "false_negatives": 1934,
+            "true_positives": 21935
+          }
+        },
+        "is_eligible": false,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 289,
+        "recovery_rate_on_val": 0.13000449842555106,
+        "new_fp_on_val": 212,
+        "fpr_delta_on_val": 0.018928571428571427
+      },
+      {
+        "candidate_id": "band_confirmation_0.40",
+        "policy_type": "band_confirmation",
+        "policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+        "band_low": 0.4,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+          "accuracy": 0.9204140408908152,
+          "precision": 0.9632934763495692,
+          "recall": 0.9180527043445473,
+          "f1_score": 0.9401291374391316,
+          "false_positive_rate": 0.07455357142857143,
+          "confusion_matrix": {
+            "true_negatives": 10365,
+            "false_positives": 835,
+            "false_negatives": 1956,
+            "true_positives": 21913
+          }
+        },
+        "is_eligible": true,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 267,
+        "recovery_rate_on_val": 0.12010796221322537,
+        "new_fp_on_val": 184,
+        "fpr_delta_on_val": 0.016428571428571424
+      },
+      {
+        "candidate_id": "band_confirmation_0.50",
+        "policy_type": "band_confirmation",
+        "policy_name": "Hybrid Policy: Band Confirmation (0.50 <= P < 0.76)",
+        "band_low": 0.5,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.50 <= P < 0.76)",
+          "accuracy": 0.9205566169551456,
+          "precision": 0.9646084005465203,
+          "recall": 0.916921530018015,
+          "f1_score": 0.9401606598221574,
+          "false_positive_rate": 0.07169642857142858,
+          "confusion_matrix": {
+            "true_negatives": 10397,
+            "false_positives": 803,
+            "false_negatives": 1983,
+            "true_positives": 21886
+          }
+        },
+        "is_eligible": true,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 240,
+        "recovery_rate_on_val": 0.10796221322537113,
+        "new_fp_on_val": 152,
+        "fpr_delta_on_val": 0.013571428571428575
+      },
+      {
+        "candidate_id": "band_confirmation_0.60",
+        "policy_type": "band_confirmation",
+        "policy_name": "Hybrid Policy: Band Confirmation (0.60 <= P < 0.76)",
+        "band_low": 0.6,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.60 <= P < 0.76)",
+          "accuracy": 0.9206991930194759,
+          "precision": 0.9665073887266613,
+          "recall": 0.915203820855503,
+          "f1_score": 0.9401562264638162,
+          "false_positive_rate": 0.06758928571428571,
+          "confusion_matrix": {
+            "true_negatives": 10443,
+            "false_positives": 757,
+            "false_negatives": 2024,
+            "true_positives": 21845
+          }
+        },
+        "is_eligible": true,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 199,
+        "recovery_rate_on_val": 0.08951866846603689,
+        "new_fp_on_val": 106,
+        "fpr_delta_on_val": 0.00946428571428571
+      },
+      {
+        "candidate_id": "band_confirmation_0.70",
+        "policy_type": "band_confirmation",
+        "policy_name": "Hybrid Policy: Band Confirmation (0.70 <= P < 0.76)",
+        "band_low": 0.7,
+        "band_high": 0.76,
+        "metrics": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.70 <= P < 0.76)",
+          "accuracy": 0.9192734323761727,
+          "precision": 0.9682186415027152,
+          "recall": 0.9113075537307805,
+          "f1_score": 0.9389014783640875,
+          "false_positive_rate": 0.06375,
+          "confusion_matrix": {
+            "true_negatives": 10486,
+            "false_positives": 714,
+            "false_negatives": 2117,
+            "true_positives": 21752
+          }
+        },
+        "is_eligible": true,
+        "validation_fpr_constraint": 0.075,
+        "fn_recovered_on_val": 106,
+        "recovery_rate_on_val": 0.04768331084120558,
+        "new_fp_on_val": 63,
+        "fpr_delta_on_val": 0.005624999999999998
+      }
+    ],
+    "standalone_supervised_val_metrics": {
+      "policy_name": "Supervised Baseline (LR, th=0.76)",
+      "accuracy": 0.918047278222932,
+      "precision": 0.9708032470735973,
+      "recall": 0.9068666471155055,
+      "f1_score": 0.9377463934497249,
+      "false_positive_rate": 0.058125,
+      "confusion_matrix": {
+        "true_negatives": 10549,
+        "false_positives": 651,
+        "false_negatives": 2223,
+        "true_positives": 21646
+      }
+    },
+    "standalone_anomaly_val_metrics": {
+      "policy_name": "Isolation Forest Standalone (th=-0.0428)",
+      "accuracy": 0.6847643217656619,
+      "precision": 0.89671826625387,
+      "recall": 0.606728392475596,
+      "f1_score": 0.7237562157974962,
+      "false_positive_rate": 0.14892857142857144,
+      "confusion_matrix": {
+        "true_negatives": 9532,
+        "false_positives": 1668,
+        "false_negatives": 9387,
+        "true_positives": 14482
+      }
+    }
+  },
+  "test_evaluations": {
+    "isolation_forest_calibrated": {
+      "accuracy": 0.7135986007870573,
+      "precision": 0.7965912189800927,
+      "recall": 0.6443792464484249,
+      "f1_score": 0.7124460379015145,
+      "false_positive_rate": 0.20159459459459458,
+      "roc_auc": 0.7899459343200079,
+      "average_precision": 0.8106161436406799,
+      "confusion_matrix": {
+        "true_negatives": 29541,
+        "false_positives": 7459,
+        "false_negatives": 16121,
+        "true_positives": 29211
+      },
+      "total_samples": 82332,
+      "classification_report": {
+        "Normal": {
+          "precision": 0.6469493232885112,
+          "recall": 0.7984054054054054,
+          "f1-score": 0.7147419612397474,
+          "support": 37000.0
+        },
+        "Attack": {
+          "precision": 0.7965912189800927,
+          "recall": 0.6443792464484249,
+          "f1-score": 0.7124460379015146,
+          "support": 45332.0
+        },
+        "accuracy": 0.7135986007870573,
+        "macro avg": {
+          "precision": 0.7217702711343019,
+          "recall": 0.7213923259269152,
+          "f1-score": 0.7135939995706311,
+          "support": 82332.0
+        },
+        "weighted avg": {
+          "precision": 0.7293421525103297,
+          "recall": 0.7135986007870573,
+          "f1-score": 0.7134778258274076,
+          "support": 82332.0
+        }
+      },
+      "decision_threshold": -0.0428,
+      "detector": "IsolationForest",
+      "threshold_type": "val_selected_-0.0428",
+      "dataset_source": "authentic_unsw_nb15",
+      "is_sample_evaluation": false,
+      "eval_time_sec": 0.42,
+      "score_distribution": {
+        "benign": {
+          "count": 37000,
+          "mean": -0.08414648649428724,
+          "std": 0.05439830098928665,
+          "min": -0.16918141292535266,
+          "p25": -0.12400291578031741,
+          "median": -0.10033168454906374,
+          "p75": -0.05322018097503711,
+          "p90": 0.004125962688632222,
+          "p95": 0.02193074827089316,
+          "p99": 0.06587804363767802,
+          "max": 0.1329339655651306
+        },
+        "attack": {
+          "count": 45332,
+          "mean": -0.014417562573081374,
+          "std": 0.06751476691116023,
+          "min": -0.13989788910663348,
+          "p25": -0.06222811937980145,
+          "median": -0.018372156610896084,
+          "p75": 0.032263644264749036,
+          "p90": 0.08385266935127578,
+          "p95": 0.10454362268084572,
+          "p99": 0.12305371522994113,
+          "max": 0.14606033616233416
+        }
+      },
+      "train_time_sec": 0.4,
+      "training_subset": "benign_only",
+      "training_samples": 44800,
+      "random_state": 42
+    },
+    "isolation_forest_default_zero": {
+      "accuracy": 0.6035441869503959,
+      "precision": 0.806501473216442,
+      "recall": 0.3683270096179299,
+      "f1_score": 0.5057015219201938,
+      "false_positive_rate": 0.10827027027027027,
+      "roc_auc": 0.7899459343200079,
+      "average_precision": 0.8106161436406799,
+      "confusion_matrix": {
+        "true_negatives": 32994,
+        "false_positives": 4006,
+        "false_negatives": 28635,
+        "true_positives": 16697
+      },
+      "total_samples": 82332,
+      "classification_report": {
+        "Normal": {
+          "precision": 0.5353648444725697,
+          "recall": 0.8917297297297297,
+          "f1-score": 0.6690527126909935,
+          "support": 37000.0
+        },
+        "Attack": {
+          "precision": 0.806501473216442,
+          "recall": 0.3683270096179299,
+          "f1-score": 0.5057015219201938,
+          "support": 45332.0
+        },
+        "accuracy": 0.6035441869503959,
+        "macro avg": {
+          "precision": 0.6709331588445059,
+          "recall": 0.6300283696738298,
+          "f1-score": 0.5873771173055937,
+          "support": 82332.0
+        },
+        "weighted avg": {
+          "precision": 0.6846526748935144,
+          "recall": 0.6035441869503959,
+          "f1-score": 0.5791115454653474,
+          "support": 82332.0
+        }
+      },
+      "decision_threshold": 0.0,
+      "detector": "IsolationForest",
+      "threshold_type": "default_0.0",
+      "dataset_source": "authentic_unsw_nb15",
+      "is_sample_evaluation": false,
+      "eval_time_sec": 0.43,
+      "score_distribution": {
+        "benign": {
+          "count": 37000,
+          "mean": -0.08414648649428724,
+          "std": 0.05439830098928665,
+          "min": -0.16918141292535266,
+          "p25": -0.12400291578031741,
+          "median": -0.10033168454906374,
+          "p75": -0.05322018097503711,
+          "p90": 0.004125962688632222,
+          "p95": 0.02193074827089316,
+          "p99": 0.06587804363767802,
+          "max": 0.1329339655651306
+        },
+        "attack": {
+          "count": 45332,
+          "mean": -0.014417562573081374,
+          "std": 0.06751476691116023,
+          "min": -0.13989788910663348,
+          "p25": -0.06222811937980145,
+          "median": -0.018372156610896084,
+          "p75": 0.032263644264749036,
+          "p90": 0.08385266935127578,
+          "p95": 0.10454362268084572,
+          "p99": 0.12305371522994113,
+          "max": 0.14606033616233416
+        }
+      }
+    },
+    "hybrid_evaluation": {
+      "supervised_baseline": {
+        "policy_name": "Supervised Baseline (LR, th=0.76)",
+        "accuracy": 0.86708691638731,
+        "precision": 0.8722800788100548,
+        "recall": 0.888732021530045,
+        "f1_score": 0.8804292004938866,
+        "false_positive_rate": 0.15943243243243244,
+        "confusion_matrix": {
+          "true_negatives": 31101,
+          "false_positives": 5899,
+          "false_negatives": 5044,
+          "true_positives": 40288
+        }
+      },
+      "random_forest_baseline": {
+        "policy_name": "Supervised Ensemble (Random Forest, th=0.50)",
+        "accuracy": 0.8526939707525628,
+        "precision": 0.7929282235867033,
+        "recall": 0.9913526868437307,
+        "f1_score": 0.8811073641283037,
+        "false_positive_rate": 0.3171891891891892,
+        "confusion_matrix": {
+          "true_negatives": 25264,
+          "false_positives": 11736,
+          "false_negatives": 392,
+          "true_positives": 44940
+        }
+      },
+      "anomaly_standalone": {
+        "policy_name": "Isolation Forest Standalone (th=-0.0428)",
+        "accuracy": 0.7135986007870573,
+        "precision": 0.7965912189800927,
+        "recall": 0.6443792464484249,
+        "f1_score": 0.7124460379015145,
+        "false_positive_rate": 0.20159459459459458,
+        "confusion_matrix": {
+          "true_negatives": 29541,
+          "false_positives": 7459,
+          "false_negatives": 16121,
+          "true_positives": 29211
+        }
+      },
+      "hybrid_cascaded_or": {
+        "policy_name": "Hybrid Policy 1: Cascaded OR",
+        "accuracy": 0.8075960744303552,
+        "precision": 0.7797848319829991,
+        "recall": 0.9065781346510191,
+        "f1_score": 0.8384148518386291,
+        "false_positive_rate": 0.31367567567567567,
+        "confusion_matrix": {
+          "true_negatives": 25394,
+          "false_positives": 11606,
+          "false_negatives": 4235,
+          "true_positives": 41097
+        }
+      },
+      "hybrid_band_confirmation": {
+        "policy_name": "Hybrid Policy 2: Band Confirmation (0.40-0.76)",
+        "accuracy": 0.8595442841179615,
+        "precision": 0.8529706903039679,
+        "recall": 0.9000485308391424,
+        "f1_score": 0.8758774660283796,
+        "false_positive_rate": 0.19008108108108107,
+        "confusion_matrix": {
+          "true_negatives": 29967,
+          "false_positives": 7033,
+          "false_negatives": 4531,
+          "true_positives": 40801
+        }
+      },
+      "hybrid_validation_selected": {
+        "policy_name": "Hybrid Policy 2: Band Confirmation (0.40-0.76)",
+        "accuracy": 0.8595442841179615,
+        "precision": 0.8529706903039679,
+        "recall": 0.9000485308391424,
+        "f1_score": 0.8758774660283796,
+        "false_positive_rate": 0.19008108108108107,
+        "confusion_matrix": {
+          "true_negatives": 29967,
+          "false_positives": 7033,
+          "false_negatives": 4531,
+          "true_positives": 40801
+        }
+      },
+      "tradeoff_analysis_or": {
+        "supervised_false_negatives_total": 5044,
+        "false_negatives_recovered_by_anomaly": 809,
+        "recovery_rate": 0.1603885804916733,
+        "new_false_positives_incurred": 5707,
+        "fpr_inflation_delta": 0.15424324324324323
+      },
+      "tradeoff_analysis_band": {
+        "supervised_false_negatives_total": 5044,
+        "false_negatives_recovered_by_band": 513,
+        "recovery_rate": 0.10170499603489294,
+        "new_false_positives_incurred": 1134,
+        "fpr_inflation_delta": 0.030648648648648635
+      },
+      "policy_selection_metadata": {
+        "selected_candidate_id": "band_confirmation_0.40",
+        "selected_policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+        "selected_policy_type": "band_confirmation",
+        "selected_band_low": 0.4,
+        "selected_band_high": 0.76,
+        "selected_sup_threshold": 0.76,
+        "selected_anomaly_threshold": -0.0428,
+        "objective_rule": "Maximize attack recall subject to validation benign FPR <= 7.50% (fallback=False)",
+        "objective_name": "max_recall_constrained_fpr",
+        "max_val_fpr_constraint": 0.075,
+        "fallback_used": false,
+        "validation_metrics_selected": {
+          "policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+          "accuracy": 0.9204140408908152,
+          "precision": 0.9632934763495692,
+          "recall": 0.9180527043445473,
+          "f1_score": 0.9401291374391316,
+          "false_positive_rate": 0.07455357142857143,
+          "confusion_matrix": {
+            "true_negatives": 10365,
+            "false_positives": 835,
+            "false_negatives": 1956,
+            "true_positives": 21913
+          }
+        },
+        "candidate_sweep": [
+          {
+            "candidate_id": "supervised_baseline",
+            "policy_type": "supervised_baseline",
+            "policy_name": "Supervised Baseline (LR, th=0.76)",
+            "band_low": null,
+            "band_high": null,
+            "metrics": {
+              "policy_name": "Supervised Baseline (LR, th=0.76)",
+              "accuracy": 0.918047278222932,
+              "precision": 0.9708032470735973,
+              "recall": 0.9068666471155055,
+              "f1_score": 0.9377463934497249,
+              "false_positive_rate": 0.058125,
+              "confusion_matrix": {
+                "true_negatives": 10549,
+                "false_positives": 651,
+                "false_negatives": 2223,
+                "true_positives": 21646
+              }
+            },
+            "is_eligible": true,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 0,
+            "recovery_rate_on_val": 0.0,
+            "new_fp_on_val": 0,
+            "fpr_delta_on_val": 0.0
+          },
+          {
+            "candidate_id": "cascaded_or",
+            "policy_type": "cascaded_or",
+            "policy_name": "Hybrid Policy: Cascaded OR",
+            "band_low": 0.0,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Cascaded OR",
+              "accuracy": 0.8861387550258063,
+              "precision": 0.9119890556338612,
+              "recall": 0.92165570405128,
+              "f1_score": 0.9167968994186411,
+              "false_positive_rate": 0.18955357142857143,
+              "confusion_matrix": {
+                "true_negatives": 9077,
+                "false_positives": 2123,
+                "false_negatives": 1870,
+                "true_positives": 21999
+              }
+            },
+            "is_eligible": false,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 353,
+            "recovery_rate_on_val": 0.1587944219523167,
+            "new_fp_on_val": 1472,
+            "fpr_delta_on_val": 0.13142857142857142
+          },
+          {
+            "candidate_id": "band_confirmation_0.20",
+            "policy_type": "band_confirmation",
+            "policy_name": "Hybrid Policy: Band Confirmation (0.20 <= P < 0.76)",
+            "band_low": 0.2,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Band Confirmation (0.20 <= P < 0.76)",
+              "accuracy": 0.9199292822720921,
+              "precision": 0.9606719454044359,
+              "recall": 0.9200217855796221,
+              "f1_score": 0.9399075500770416,
+              "false_positive_rate": 0.08026785714285714,
+              "confusion_matrix": {
+                "true_negatives": 10301,
+                "false_positives": 899,
+                "false_negatives": 1909,
+                "true_positives": 21960
+              }
+            },
+            "is_eligible": false,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 314,
+            "recovery_rate_on_val": 0.14125056230319388,
+            "new_fp_on_val": 248,
+            "fpr_delta_on_val": 0.022142857142857138
+          },
+          {
+            "candidate_id": "band_confirmation_0.30",
+            "policy_type": "band_confirmation",
+            "policy_name": "Hybrid Policy: Band Confirmation (0.30 <= P < 0.76)",
+            "band_low": 0.3,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Band Confirmation (0.30 <= P < 0.76)",
+              "accuracy": 0.9202429496136189,
+              "precision": 0.9621458022633564,
+              "recall": 0.918974401943944,
+              "f1_score": 0.9400647138234727,
+              "false_positive_rate": 0.07705357142857143,
+              "confusion_matrix": {
+                "true_negatives": 10337,
+                "false_positives": 863,
+                "false_negatives": 1934,
+                "true_positives": 21935
+              }
+            },
+            "is_eligible": false,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 289,
+            "recovery_rate_on_val": 0.13000449842555106,
+            "new_fp_on_val": 212,
+            "fpr_delta_on_val": 0.018928571428571427
+          },
+          {
+            "candidate_id": "band_confirmation_0.40",
+            "policy_type": "band_confirmation",
+            "policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+            "band_low": 0.4,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Band Confirmation (0.40 <= P < 0.76)",
+              "accuracy": 0.9204140408908152,
+              "precision": 0.9632934763495692,
+              "recall": 0.9180527043445473,
+              "f1_score": 0.9401291374391316,
+              "false_positive_rate": 0.07455357142857143,
+              "confusion_matrix": {
+                "true_negatives": 10365,
+                "false_positives": 835,
+                "false_negatives": 1956,
+                "true_positives": 21913
+              }
+            },
+            "is_eligible": true,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 267,
+            "recovery_rate_on_val": 0.12010796221322537,
+            "new_fp_on_val": 184,
+            "fpr_delta_on_val": 0.016428571428571424
+          },
+          {
+            "candidate_id": "band_confirmation_0.50",
+            "policy_type": "band_confirmation",
+            "policy_name": "Hybrid Policy: Band Confirmation (0.50 <= P < 0.76)",
+            "band_low": 0.5,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Band Confirmation (0.50 <= P < 0.76)",
+              "accuracy": 0.9205566169551456,
+              "precision": 0.9646084005465203,
+              "recall": 0.916921530018015,
+              "f1_score": 0.9401606598221574,
+              "false_positive_rate": 0.07169642857142858,
+              "confusion_matrix": {
+                "true_negatives": 10397,
+                "false_positives": 803,
+                "false_negatives": 1983,
+                "true_positives": 21886
+              }
+            },
+            "is_eligible": true,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 240,
+            "recovery_rate_on_val": 0.10796221322537113,
+            "new_fp_on_val": 152,
+            "fpr_delta_on_val": 0.013571428571428575
+          },
+          {
+            "candidate_id": "band_confirmation_0.60",
+            "policy_type": "band_confirmation",
+            "policy_name": "Hybrid Policy: Band Confirmation (0.60 <= P < 0.76)",
+            "band_low": 0.6,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Band Confirmation (0.60 <= P < 0.76)",
+              "accuracy": 0.9206991930194759,
+              "precision": 0.9665073887266613,
+              "recall": 0.915203820855503,
+              "f1_score": 0.9401562264638162,
+              "false_positive_rate": 0.06758928571428571,
+              "confusion_matrix": {
+                "true_negatives": 10443,
+                "false_positives": 757,
+                "false_negatives": 2024,
+                "true_positives": 21845
+              }
+            },
+            "is_eligible": true,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 199,
+            "recovery_rate_on_val": 0.08951866846603689,
+            "new_fp_on_val": 106,
+            "fpr_delta_on_val": 0.00946428571428571
+          },
+          {
+            "candidate_id": "band_confirmation_0.70",
+            "policy_type": "band_confirmation",
+            "policy_name": "Hybrid Policy: Band Confirmation (0.70 <= P < 0.76)",
+            "band_low": 0.7,
+            "band_high": 0.76,
+            "metrics": {
+              "policy_name": "Hybrid Policy: Band Confirmation (0.70 <= P < 0.76)",
+              "accuracy": 0.9192734323761727,
+              "precision": 0.9682186415027152,
+              "recall": 0.9113075537307805,
+              "f1_score": 0.9389014783640875,
+              "false_positive_rate": 0.06375,
+              "confusion_matrix": {
+                "true_negatives": 10486,
+                "false_positives": 714,
+                "false_negatives": 2117,
+                "true_positives": 21752
+              }
+            },
+            "is_eligible": true,
+            "validation_fpr_constraint": 0.075,
+            "fn_recovered_on_val": 106,
+            "recovery_rate_on_val": 0.04768331084120558,
+            "new_fp_on_val": 63,
+            "fpr_delta_on_val": 0.005624999999999998
+          }
+        ],
+        "standalone_supervised_val_metrics": {
+          "policy_name": "Supervised Baseline (LR, th=0.76)",
+          "accuracy": 0.918047278222932,
+          "precision": 0.9708032470735973,
+          "recall": 0.9068666471155055,
+          "f1_score": 0.9377463934497249,
+          "false_positive_rate": 0.058125,
+          "confusion_matrix": {
+            "true_negatives": 10549,
+            "false_positives": 651,
+            "false_negatives": 2223,
+            "true_positives": 21646
+          }
+        },
+        "standalone_anomaly_val_metrics": {
+          "policy_name": "Isolation Forest Standalone (th=-0.0428)",
+          "accuracy": 0.6847643217656619,
+          "precision": 0.89671826625387,
+          "recall": 0.606728392475596,
+          "f1_score": 0.7237562157974962,
+          "false_positive_rate": 0.14892857142857144,
+          "confusion_matrix": {
+            "true_negatives": 9532,
+            "false_positives": 1668,
+            "false_negatives": 9387,
+            "true_positives": 14482
+          }
+        }
+      },
+      "dataset_source": "authentic_unsw_nb15",
+      "is_sample_evaluation": false,
+      "total_test_samples": 82332
+    }
+  }
+}
