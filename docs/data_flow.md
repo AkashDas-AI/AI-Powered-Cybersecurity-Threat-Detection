@@ -103,15 +103,19 @@ To eliminate optimism bias and data leakage, threshold calibration follows a str
 2. Anomaly Scoring Convention:
    - Scikit-learn's `decision_function(X)` returns positive values for normal inliers and negative values for abnormal outliers.
    - The system defines the continuous anomaly score as:
-     $$\text{anomaly\_score} = -\text{decision\_function}(X)$$
+     ```text
+     anomaly_score = -decision_function(X)
+     ```
    - Higher scores indicate greater deviation from benign baseline traffic.
 3. Decision Threshold Selection:
-   - The anomaly decision threshold ($\theta_{anomaly} = -0.0428$) is selected on the validation split by maximizing recall subject to validation $\text{FPR} \le 7.5\%$.
+   - The anomaly decision threshold (`threshold = -0.0428`) is selected on the validation split by maximizing recall subject to validation FPR <= 7.5%.
 4. Hybrid Fusion Gating:
-   - Supervised Baseline: Alerts if $P_{attack} \ge 0.76$.
-   - Cascaded OR: Alerts if $P_{attack} \ge 0.76 \lor \text{anomaly\_score} \ge -0.0428$.
+   - Supervised Baseline: Alerts if `P_attack >= 0.76`.
+   - Cascaded OR: Alerts if `P_attack >= 0.76 or anomaly_score >= -0.0428`.
    - Suspicious-Band Confirmation: Alerts if:
-     $$P_{attack} \ge 0.76 \lor (0.40 \le P_{attack} < 0.76 \land \text{anomaly\_score} \ge -0.0428)$$
+     ```text
+     P_attack >= 0.76 or (0.40 <= P_attack < 0.76 and anomaly_score >= -0.0428)
+     ```
 
 ---
 

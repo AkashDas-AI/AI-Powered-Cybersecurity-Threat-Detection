@@ -90,12 +90,12 @@ AI-Powered Cybersecurity Threat Detection/
   - `compute_threshold_metrics(y_true: np.ndarray, y_prob: np.ndarray, thresholds: Optional[np.ndarray] = None) -> List[Dict[str, Any]]`:
     - Computes precision, recall, F1, and FPR across 91 threshold points spanning 0.05 to 0.95.
   - `select_candidate_threshold(threshold_metrics: List[Dict[str, Any]], min_recall: float = 0.90, objective: str = "min_fpr") -> Dict[str, Any]`:
-    - Selects the optimal threshold meeting a minimum recall constraint (default $\ge 90\%$) while minimizing false alarm rate.
+    - Selects the optimal threshold meeting a minimum recall constraint (default >= 90%) while minimizing false alarm rate.
   - `run_oof_threshold_calibration(...)`:
     - Executes 5-fold Stratified K-Fold cross-validation across all 175,341 training records to generate out-of-fold probability distributions without test leakage.
   - `run_consistent_calibration_pipeline(...)`:
     - Splits the official training set into an 80% subtrain and 20% validation partition.
-    - Fits the model on 80% subtrain, selects threshold $\theta = 0.76$ on 20% validation, and deploys the identical frozen pipeline directly to the test set, guaranteeing zero refit drift and full parameter invariance.
+    - Fits the model on 80% subtrain, selects threshold theta = 0.76 on 20% validation, and deploys the identical frozen pipeline directly to the test set, guaranteeing zero refit drift and full parameter invariance.
   - `plot_model_comparison_curves(...)`, `plot_threshold_curves(...)`:
     - Generates publication-ready comparative ROC, Precision-Recall, threshold trade-off, and confusion matrix figures.
 
@@ -108,12 +108,12 @@ AI-Powered Cybersecurity Threat Detection/
   - `fit_isolation_forest_pipeline(X_train_benign, numerical_features, categorical_features, n_estimators=100, max_samples=256, contamination="auto", random_state=42) -> Pipeline`:
     - Fits `IsolationForest` strictly on benign traffic (`label = 0`, N=44,800 records) to establish normal traffic baselines.
   - `compute_anomaly_scores(pipeline: Pipeline, X: pd.DataFrame) -> np.ndarray`:
-    - Returns negated decision function: $\text{anomaly\_score} = -\text{decision\_function}(X)$. Inliers yield lower/negative scores; anomalies yield higher/positive scores.
+    - Returns negated decision function: `anomaly_score = -decision_function(X)`. Inliers yield lower/negative scores; anomalies yield higher/positive scores.
   - `select_hybrid_policy_on_validation(...)`:
     - Sweeps policy thresholds strictly on the validation partition (N=35,069).
     - Evaluates Cascaded OR vs. Suspicious-Band Confirmation policies across lower boundary candidates (0.20 to 0.70).
   - `evaluate_hybrid_policies(...)`:
-    - Applies the frozen validation-selected policy ($0.40 \le P < 0.76$) to the official held-out test split (82,332 records) and reports false positive trade-offs.
+    - Applies the frozen validation-selected policy (`0.40 <= P < 0.76`) to the official held-out test split (82,332 records) and reports false positive trade-offs.
 
 ---
 
@@ -126,10 +126,10 @@ AI-Powered Cybersecurity Threat Detection/
     - Validates required event columns and drops duplicate `event_id` rows.
     - Sanitizes data types and replaces missing counts with zeros.
     - Evaluates four deterministic rules:
-      1. `RULE-AUTH-001`: Brute-Force Authentication (failed logins $\ge 5$). Emits HIGH severity.
-      2. `RULE-EXFIL-002`: Data Exfiltration (bytes $\ge 10\text{ MB}$). Emits CRITICAL severity.
+      1. `RULE-AUTH-001`: Brute-Force Authentication (failed logins >= 5). Emits HIGH severity.
+      2. `RULE-EXFIL-002`: Data Exfiltration (bytes >= 10 MB). Emits CRITICAL severity.
       3. `RULE-PROBE-003`: Offensive Tool Signatures (`sqlmap`, `nikto`, `masscan`, `malicious-probe` in User-Agent). Emits HIGH severity.
-      4. `RULE-SCAN-004`: Multi-Port Reconnaissance ($\ge 5$ distinct destination ports with packet count $\le 5$). Emits MEDIUM severity.
+      4. `RULE-SCAN-004`: Multi-Port Reconnaissance (>= 5 distinct destination ports with packet count <= 5). Emits MEDIUM severity.
     - Returns DataFrame of formatted alerts containing alert IDs, timestamps, IP addresses, severities, and explicit trigger evidence.
 
 ---

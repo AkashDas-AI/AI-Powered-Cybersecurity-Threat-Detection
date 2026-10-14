@@ -78,7 +78,9 @@ The Isolation Forest isolates observations by randomly selecting a feature and r
 In typical unsupervised deployments, anomaly detectors trained on unfiltered traffic learn attack clusters as part of the normal data distribution.
 - System Protocol: The Isolation Forest (`n_estimators=100`, `max_samples=256`, `contamination="auto"`) is fitted exclusively on benign traffic (`label = 0`, N=44,800 records) extracted from the subtraining split.
 - Scoring Convention: Scikit-learn defines `decision_function(X)` such that positive values indicate inliers and negative values indicate outliers. The system inverts this output:
-  $$\text{anomaly\_score} = -\text{decision\_function}(\mathbf{x})$$
+  ```text
+  anomaly_score = -decision_function(x)
+  ```
   Higher scores represent greater deviations from standard benign traffic patterns.
 
 ---
@@ -98,7 +100,7 @@ In classical machine learning workflows, engineers select a threshold via cross-
 - The Parameter-Invariant Solution:
   1. The official training set is split into 80% subtrain (140,272 records) and 20% validation (35,069 records).
   2. The model is fitted exclusively on the 80% subtrain split.
-  3. The decision threshold $\theta = 0.76$ is selected on the 20% validation split.
+  3. The decision threshold theta = 0.76 is selected on the 20% validation split.
   4. The exact same fitted pipeline is evaluated directly on the test set without refitting. This guarantees zero refit drift and full parameter invariance.
 
 ---
@@ -119,13 +121,17 @@ flowchart TD
 ```
 
 ### 5.1 Cascaded OR Policy (Naive Stacking)
-$$\text{Alert} = (P_{attack} \ge 0.76) \lor (\text{anomaly\_score} \ge -0.0428)$$
+```text
+Alert = (P_attack >= 0.76) OR (anomaly_score >= -0.0428)
+```
 - Attack Recovery: Identifies 809 out of 5,044 attacks missed by the supervised model (16.04% recovery rate), lifting recall to 90.66%.
 - Operational Cost: Simple logical OR adds 5,707 new false alarms, inflating test FPR from 15.94% to 31.37% (nearly doubling false alarms).
 
 ### 5.2 Suspicious-Band Confirmation Policy
-$$\text{Alert} = (P_{attack} \ge 0.76) \lor \left( 0.40 \le P_{attack} < 0.76 \land \text{anomaly\_score} \ge -0.0428 \right)$$
-- Mechanism: Restricts anomaly inspection exclusively to uncertain predictions ($0.40 \le P < 0.76$).
+```text
+Alert = (P_attack >= 0.76) OR (0.40 <= P_attack < 0.76 AND anomaly_score >= -0.0428)
+```
+- Mechanism: Restricts anomaly inspection exclusively to uncertain predictions (`0.40 <= P < 0.76`).
 - Result: Achieves 90.00% recall while adding only 1,134 new false alarms (Test FPR = 19.01%, F1 = 87.59%).
 
 ---

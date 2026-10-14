@@ -24,8 +24,7 @@ This engine processes synthetic security events (`data/sample/synthetic_security
 - Rule ID: `RULE-AUTH-001`
 - Severity: `HIGH`
 - Target Event: Authentication and login attempts (SSH, RDP, Web).
-- Trigger Condition:
-  $$\text{failed\_logins} \ge 5$$
+- Trigger Condition: `failed_logins >= 5`
 - Evidence Emitted: String specifying observed count vs. threshold (e.g., `failed_logins=12 (threshold=5)`).
 - Operational Rationale: Repeated sequential authentication failures indicate credential stuffing, password spraying, or dictionary attacks.
 
@@ -35,8 +34,7 @@ This engine processes synthetic security events (`data/sample/synthetic_security
 - Rule ID: `RULE-EXFIL-002`
 - Severity: `CRITICAL`
 - Target Event: Data transfer sessions.
-- Trigger Condition:
-  $$\text{byte\_count} \ge 10{,}000{,}000 \text{ bytes } (\sim 10 \text{ MB})$$
+- Trigger Condition: `byte_count >= 10,000,000 bytes (~10 MB)`
 - Evidence Emitted: Exact byte count observed vs. threshold (e.g., `byte_count=15,482,900 bytes (threshold=10,000,000)`).
 - Operational Rationale: Abnormally large single-session egress to external addresses suggests unauthorized data staging or exfiltration.
 
@@ -60,8 +58,8 @@ This engine processes synthetic security events (`data/sample/synthetic_security
 - Severity: `MEDIUM`
 - Target Event: Connection requests aggregated by source IP.
 - Trigger Condition:
-  - $\text{packet\_count} \le 5$ (SYN-only or probe-level interaction), AND
-  - Number of distinct destination ports probed by the same `source_ip` $\ge 5$.
+  - `packet_count <= 5` (SYN-only or probe-level interaction), AND
+  - Number of distinct destination ports probed by the same `source_ip` >= 5.
 - Evidence Emitted: Total distinct ports scanned and port list sample.
 - Operational Rationale: Probing multiple ports with minimal packet interaction indicates active reconnaissance and service enumeration.
 

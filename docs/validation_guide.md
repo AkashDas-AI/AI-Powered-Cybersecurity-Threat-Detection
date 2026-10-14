@@ -47,8 +47,8 @@ flowchart TD
   - Asserts parameter invariance: the model evaluated on the test set retains the identical frozen parameters from the validation split.
 - `tests/test_anomaly_detection.py`:
   - Asserts that the `IsolationForest` is fitted exclusively on benign flows (`label = 0`).
-  - Confirms the anomaly score convention ($\text{anomaly\_score} = -\text{decision\_function}(X)$) where higher scores denote higher abnormality.
-  - Validates that the Suspicious-Band confirmation policy ($0.40 \le P < 0.76$) correctly gates anomaly confirmation.
+  - Confirms the anomaly score convention (`anomaly_score = -decision_function(X)`) where higher scores denote higher abnormality.
+  - Validates that the Suspicious-Band confirmation policy (`0.40 <= P < 0.76`) correctly gates anomaly confirmation.
 
 ### Layer 4: Presentation and Dashboard State Resilience
 - `tests/test_dashboard_states.py`:
