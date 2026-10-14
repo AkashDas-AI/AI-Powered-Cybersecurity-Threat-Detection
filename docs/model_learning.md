@@ -1,86 +1,142 @@
-# Model Architecture & Learning Mechanics
+# Model Architecture and Learning Mechanics
 
-## 1. Learning Paradigms
+## 1. Learning Paradigms and Threat Detection Strategy
 
-Cybersecurity threat detection encounters two primary challenges:
-1. **Known Attacks:** Best detected via supervised classification leveraging known signatures and behavioral feature patterns.
-2. **Zero-Day & Polymorphic Attacks:** Best detected via unsupervised anomaly detection trained on normal benign baselines.
+Network intrusion detection presents two competing operational challenges:
+1. High Detection Rate (Recall): Security Operations Centers (SOCs) must identify stealthy intrusions before lateral movement occurs.
+2. Low False Positive Rate (FPR): Excessive false alarms create analyst alert fatigue, leading to missed security incidents.
 
-To resolve both, this system employs a **Hybrid Learning Architecture**.
+To address both challenges, this system implements a multi-tiered architecture evaluated on the authentic UNSW-NB15 benchmark:
+- Linear Supervised Classification (Calibrated Logistic Regression).
+- Non-Linear Supervised Ensemble (Random Forest).
+- Unsupervised Novelty Anomaly Detection (Isolation Forest fitted strictly on benign traffic).
+- Hybrid Decision Gating (Suspicious-Band Confirmation).
 
 ```mermaid
-graph LR
-    subgraph Input
-        X["Normalized Feature Vector x in R^d"]
-    end
+flowchart LR
+    X[Normalized Network Flow Features] --> SUP[Supervised Linear Model<br/>Logistic Regression]
+    X --> RF[Supervised Ensemble<br/>Random Forest]
+    X --> ANO[Novelty Anomaly Detector<br/>Isolation Forest]
 
-    subgraph "Supervised Branch (Known Threat Classification)"
-        X --> GBDT["Gradient Boosted Trees / MLP"]
-        GBDT --> P["Class Probabilities P(y=c | x)"]
-    end
+    SUP -->|P_attack| HYB{Hybrid Policy<br/>0.40 <= P < 0.76}
+    ANO -->|Anomaly Score| HYB
 
-    subgraph "Unsupervised Branch (Anomaly & Novelty Detection)"
-        X --> AE["Deep Autoencoder / Isolation Forest"]
-        AE --> R["Reconstruction Error / Anomaly Score S(x)"]
-    end
-
-    subgraph "Decision Fusion & Alert Calibration"
-        P --> Fusion["Ensemble Scoring & Threshold Policy"]
-        R --> Fusion
-        Fusion --> Out["Threat Assessment & Alert Level"]
-    end
+    HYB --> OUT[Calibrated Security Alert]
 ```
 
 ---
 
-## 2. Supervised Learning Engine
+## 2. Supervised Learning Mechanics
 
-### Objective Function
-For multi-class threat classification with $K$ classes, the network optimizes the weighted Cross-Entropy Loss:
-$$\mathcal{L}_{CE} = - \sum_{i=1}^{N} \sum_{k=1}^{K} w_k \cdot y_{i,k} \log(\hat{p}_{i,k})$$
-where $y_{i,k} \in \{0, 1\}$ is the ground-truth one-hot label, $\hat{p}_{i,k}$ is the predicted probability from the softmax activation, and $w_k$ is the class penalty weight.
+### 2.1 Logistic Regression Baseline
 
-### Algorithmic Approaches
-1. **Linear Baseline — Regularized Logistic Regression:**
-   - Serves as the project's canonical linear benchmark model for binary intrusion classification (`0: Normal`, `1: Attack`).
-   - Highly interpretable log-odds coefficients and rapid convergence under standardized numerical inputs.
-   - Evaluated using the standard `StandardScaler` + `OneHotEncoder` preprocessing pipeline.
-2. **Ensemble Models (Random Forest / GBDT):**
-   - Non-linear tabular modeling on network flow statistics.
-   - Robust against feature correlations and non-normal traffic distributions.
-   - Computes feature importance metrics for operational explainability.
-3. **Deep Neural Network (PyTorch MLP / 1D-CNN):**
-   - Fully connected layers with Batch Normalization, Dropout (regularization), and LeakyReLU activations.
-   - Trained via `AdamW` optimizer with weight decay and Cosine Annealing learning rate schedules.
+Logistic Regression models the log-odds of a flow being malicious as a linear combination of standardized input features:
+
+$$\log \left( \frac{P(y=1 \mid \mathbf{x})}{1 - P(y=1 \mid \mathbf{x})} \right) = \mathbf{w}^T \mathbf{x} + b$$
+
+The posterior attack probability is obtained via the sigmoid activation:
+
+$$P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^T \mathbf{x} + b) = \frac{1}{1 + e^{-(\mathbf{w}^T \mathbf{x} + b)}}$$
+
+#### Standard Default Decision Rule ($\theta = 0.50$):
+$$\hat{y} = \begin{cases} 1, & \text{if } P(y=1 \mid \mathbf{x}) \ge 0.50 \\ 0, & \text{otherwise} \end{cases}$$
+
+- Strengths: Highly interpretable, rapid convergence, convex optimization (no local minima).
+- Operational Limitation at Default Threshold: While achieving 97.31% recall on the UNSW-NB15 test set, the default threshold produces a 39.01% false positive rate (14,434 false alarms out of 37,000 normal flows), overwhelming SOC triage capacity.
 
 ---
 
-## 3. Unsupervised Anomaly Detection Engine
+### 2.2 Random Forest Classifier Ensemble
 
-### Autoencoder Learning Mechanics
-The autoencoder learns the manifold of standard, benign network operations.
+The Random Forest constructs an ensemble of $B = 100$ decorrelated decision trees using bootstrap aggregating (bagging) and random feature subspace sampling:
 
-1. **Architecture:**
-   - **Encoder:** Compresses input feature vector $\mathbf{x} \in \mathbb{R}^d$ into a lower-dimensional latent bottleneck $\mathbf{z} \in \mathbb{R}^m$ ($m \ll d$):
-     $$\mathbf{z} = \sigma(\mathbf{W}_e \mathbf{x} + \mathbf{b}_e)$$
-   - **Decoder:** Reconstructs the original vector from $\mathbf{z}$:
-     $$\mathbf{\hat{x}} = \sigma(\mathbf{W}_d \mathbf{z} + \mathbf{b}_d)$$
-2. **Loss Function (Reconstruction Loss):**
-   $$\mathcal{L}_{recon} = \frac{1}{d} \sum_{j=1}^{d} (x_j - \hat{x}_j)^2$$
-3. **Inference Principle:**
-   - Because the autoencoder is trained strictly on **benign network flows**, it successfully reconstructs typical network behavior with near-zero error.
-   - When anomalous or zero-day attack traffic appears, the latent representation fails to generalize, yielding a sharp spike in reconstruction error:
-     $$\text{Anomaly Score } S(\mathbf{x}) = \|\mathbf{x} - \mathbf{\hat{x}}\|_2^2$$
-   - An anomaly threshold $\tau$ is calibrated using the $(1-\alpha)$ quantile (e.g. 99th percentile) of benign validation reconstruction errors.
+$$\hat{y} = \text{mode} \left( \{ T_b(\mathbf{x}) \}_{b=1}^{B} \right), \quad P(y=1 \mid \mathbf{x}) = \frac{1}{B} \sum_{b=1}^{B} \mathbb{I}(T_b(\mathbf{x}) = 1)$$
+
+- Hyperparameters: `n_estimators=100`, `max_depth=15`, `min_samples_split=5`, `random_state=42`.
+- Strengths: Captures complex non-linear boundary interactions between flow duration, packet rates, and TCP flags without requiring explicit feature interaction terms.
+- Performance: Achieves 99.14% attack recall, 0.9822 ROC-AUC, and 0.9868 PR-AUC on the held-out test set.
 
 ---
 
-## 4. Evaluation & Performance Metrics
+## 3. Unsupervised Novelty Anomaly Detection
 
-In cybersecurity, **False Positive Rate (FPR)** is as vital as Detection Rate (Recall) because excessive false alarms cause analyst alert fatigue.
+### 3.1 Isolation Forest Mechanics
 
-- **Precision:** $\frac{TP}{TP + FP}$ (Reliability of alarms)
-- **Recall (Detection Rate):** $\frac{TP}{TP + FN}$ (Coverage of attacks)
-- **F1-Score / Macro F1:** Harmonic mean of Precision and Recall across imbalanced classes.
-- **False Alarm Rate (FAR / FPR):** $\frac{FP}{TN + FP}$ (Target: $< 0.1\%$).
-- **ROC-AUC & PR-AUC:** Area under Receiver Operating Characteristic and Precision-Recall Curves.
+The Isolation Forest isolates observations by randomly selecting a feature and randomly selecting a split value between the feature's minimum and maximum values.
+
+- Principle: Normal, benign network flows require many random partitions to isolate. Anomalies and novel attacks exhibit atypical feature values and isolate close to the tree roots with short path lengths.
+- Average Path Length Normalization:
+  For a dataset of $n$ instances, the average path length of an unsuccessful search in a Binary Search Tree (BST) is:
+  $$c(n) = 2 \left( \ln(n - 1) + 0.5772156649 \right) - \frac{2(n - 1)}{n}$$
+- Anomaly Score Formulation:
+  The anomaly score $s(\mathbf{x}, n)$ is bounded between 0 and 1:
+  $$s(\mathbf{x}, n) = 2^{-\frac{\mathbb{E}(h(\mathbf{x}))}{c(n)}}$$
+  where $h(\mathbf{x})$ is the path length of observation $\mathbf{x}$ across the ensemble of isolation trees.
+
+### 3.2 Benign-Only Fitting Protocol
+
+In typical unsupervised deployments, anomaly detectors trained on unfiltered traffic learn attack clusters as part of the normal data distribution.
+- System Protocol: The Isolation Forest (`n_estimators=100`, `max_samples=256`, `contamination="auto"`) is fitted exclusively on benign traffic (`label = 0`, N=44,800 records) extracted from the subtraining split.
+- Scoring Convention: Scikit-learn defines `decision_function(X)` such that positive values indicate inliers and negative values indicate outliers. The system inverts this output:
+  $$\text{anomaly\_score} = -\text{decision\_function}(\mathbf{x})$$
+  Higher scores represent greater deviations from standard benign traffic patterns.
+
+---
+
+## 4. Leak-Free Threshold Calibration
+
+### 4.1 Formal Calibration Objective
+
+Threshold selection is formulated as a constrained optimization problem:
+
+$$\theta^* = \arg\min_{\theta \in [0.05, 0.95]} \text{FPR}(\theta) \quad \text{subject to } \text{Recall}(\theta) \ge 90.0\%$$
+
+### 4.2 Parameter Invariance and Elimination of Refit Drift
+
+In classical machine learning workflows, engineers select a threshold via cross-validation, then refit the model on 100% of the training data before test evaluation.
+- The Refit Flaw: Refitting on 100% of the data alters sample size, gradients, and coefficient magnitudes, causing the optimal threshold to drift.
+- The Parameter-Invariant Solution:
+  1. The official training set is split into 80% subtrain (140,272 records) and 20% validation (35,069 records).
+  2. The model is fitted exclusively on the 80% subtrain split.
+  3. The decision threshold $\theta = 0.76$ is selected on the 20% validation split.
+  4. The exact same fitted pipeline is evaluated directly on the test set without refitting. This guarantees zero refit drift and full parameter invariance.
+
+---
+
+## 5. Hybrid Gating and Decision Fusion
+
+When combining supervised models with anomaly detectors, naive combination policies often degrade operational performance.
+
+```mermaid
+flowchart TD
+    A[Supervised Attack Probability P] --> B{P >= 0.76 ?}
+    B -- Yes --> C[Emit Alert: Confirmed Threat]
+    B -- No --> D{0.40 <= P < 0.76 ?<br/>Suspicious Ambiguity Band}
+    D -- No (P < 0.40) --> E[Classify Benign: Suppress Alert]
+    D -- Yes --> F{Anomaly Score >= -0.0428 ?}
+    F -- Yes --> G[Emit Alert: Novelty Confirmed]
+    F -- No --> E
+```
+
+### 5.1 Cascaded OR Policy (Naive Stacking)
+$$\text{Alert} = (P_{attack} \ge 0.76) \lor (\text{anomaly\_score} \ge -0.0428)$$
+- Attack Recovery: Identifies 809 out of 5,044 attacks missed by the supervised model (16.04% recovery rate), lifting recall to 90.66%.
+- Operational Cost: Simple logical OR adds 5,707 new false alarms, inflating test FPR from 15.94% to 31.37% (nearly doubling false alarms).
+
+### 5.2 Suspicious-Band Confirmation Policy
+$$\text{Alert} = (P_{attack} \ge 0.76) \lor \left( 0.40 \le P_{attack} < 0.76 \land \text{anomaly\_score} \ge -0.0428 \right)$$
+- Mechanism: Restricts anomaly inspection exclusively to uncertain predictions ($0.40 \le P < 0.76$).
+- Result: Achieves 90.00% recall while adding only 1,134 new false alarms (Test FPR = 19.01%, F1 = 87.59%).
+
+---
+
+## 6. Official Test Split Benchmark Performance (82,332 Records)
+
+| Model Configuration | Decision Threshold | Accuracy | Precision | Recall | F1-Score | False Alarm Rate (FPR) | ROC-AUC | PR-AUC |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Logistic Regression (Default Baseline) | $\theta = 0.50$ | 80.99% | 75.35% | 97.31% | 84.93% | 39.01% | 0.9561 | 0.9664 |
+| **Logistic Regression (Consistent Frozen)** | **$\theta = 0.76$** | **86.71%** | **87.23%** | **88.87%** | **88.04%** | **15.94%** | **0.9554** | **0.9660** |
+| Random Forest Classifier | $\theta = 0.50$ | 85.27% | 79.29% | 99.14% | 88.11% | 31.72% | 0.9822 | 0.9868 |
+| Isolation Forest (Standalone Novelty) | $\theta = -0.0428$ | 71.36% | 79.66% | 64.44% | 71.24% | 20.16% | 0.7899 | 0.8106 |
+| Hybrid Policy 1: Cascaded OR | Dual Gating | 80.76% | 77.98% | 90.66% | 83.84% | 31.37% | N/A | N/A |
+| **Hybrid Policy 2: Band Confirmation** | **$0.40 \le P < 0.76$** | **85.95%** | **85.30%** | **90.00%** | **87.59%** | **19.01%** | **N/A** | **N/A** |

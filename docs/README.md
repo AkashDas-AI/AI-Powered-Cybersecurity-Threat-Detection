@@ -1,26 +1,27 @@
-# Project Documentation: AI-Powered Cybersecurity Threat Detection
+# Project Technical Documentation
 
-Welcome to the technical documentation repository for the **AI-Powered Cybersecurity Threat Detection** system. This folder contains all the foundational architectures, data pipelines, model learning mechanics, module specifications, and verification protocols.
+Welcome to the technical documentation repository for the **AI-Powered Cybersecurity Threat Detection System**. This directory provides architectural specifications, data lifecycle diagrams, algorithmic learning mechanics, module interface contracts, and validation protocols.
 
 ---
 
-## 📁 Documentation Structure
+## Documentation Structure
 
 | Document | Description |
 | :--- | :--- |
-| [**System Architecture**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/architecture.md) | High-level architectural design, system boundaries, and technology stack. |
-| [**Data Flow & Pipeline**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/data_flow.md) | End-to-end data lifecycle, stream/batch ingestion, transformations, and representations. |
-| [**Dataset Specification**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/dataset_reference.md) | Details on cybersecurity datasets (e.g., CIC-IDS2017 / NSL-KDD / UNSW-NB15), feature schemas, and splits. |
-| [**Model Architecture & Learning**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/model_learning.md) | Model choices, loss functions, learning algorithms, anomaly detection mechanisms, and evaluation metrics. |
-| [**Detection Logic**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/detection-logic.md) | Specifications of deterministic security rules, trigger thresholds, and alert schemas. |
-| [**Demo Checklist**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/demo-checklist.md) | Reproducible step-by-step checklist to run and verify the demo end-to-end. |
-| [**Module Specifications**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/modules_specification.md) | Detailed breakdown of each core software module and its APIs. |
-| [**Validation & Verification Guide**](file:///d:/Projects/Artificial%20Intelligence/AI-Powered%20Cybersecurity%20Threat%20Detection/docs/validation_guide.md) | Protocol for verifying that each implemented module functions accurately. |
+| [**System Architecture**](architecture.md) | Multi-tiered decoupled architectural design, system boundaries, technology stack, and engineering decisions. |
+| [**Data Flow and Pipeline**](data_flow.md) | End-to-end data lifecycle across preprocessing, partition splitting, feature transformation, inference scoring, and SIEM alerting. |
+| [**Dataset Specification**](dataset_reference.md) | Complete reference for the authentic UNSW-NB15 benchmark, 49-feature dictionary, 9 attack categories, synthetic event schemas, and academic citations. |
+| [**Model Architecture and Learning**](model_learning.md) | Mathematical formulations for Logistic Regression, Random Forest, Isolation Forest (benign-only fit), leak-free threshold calibration, and hybrid confirmation gating. |
+| [**Detection Logic**](detection-logic.md) | Specifications for the four deterministic SIEM security rules, trigger thresholds, operational rationales, and alert schemas. |
+| [**Module Specifications**](modules_specification.md) | Granular breakdown of each Python module in `src/`, key function signatures, inputs, outputs, and CLI options. |
+| [**Validation and Verification Protocol**](validation_guide.md) | Multi-layer quality assurance protocol verifying the 63 automated unit and integration tests across 7 test suites. |
+| [**Demonstration Checklist**](demo-checklist.md) | Step-by-step checklist to set up environments, run tests, train models, simulate events, evaluate rules, and launch the Streamlit dashboard. |
 
 ---
 
-## 🛠️ Execution & Maintenance Protocol
-Every development phase will update this directory with:
-1. Exact mathematical and algorithmic formulations.
-2. Interface contracts and data schemas.
-3. Verification steps and validation tests.
+## Architectural Principles
+
+Every technical component in this repository adheres to three engineering standards:
+1. Methodological Rigor: Strict zero-leakage protocols preventing test-set exposure during preprocessing, threshold calibration, and policy sweeps.
+2. Operational Reality: Optimization for SOC triage capacity by balancing attack recall against false alarm suppression rather than chasing raw accuracy vanity metrics.
+3. Decoupled Modularity: Clean separation between statistical network flow analysis and deterministic host-level SIEM telemetry.

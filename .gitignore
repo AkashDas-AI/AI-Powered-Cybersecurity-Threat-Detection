@@ -62,3 +62,8 @@ outputs/reports/*
 
 # Streamlit Local Cache
 .streamlit/
+
+# Personal Interview & Preparation Notes (Private to Author)
+docs/interview_guide.md
+docs/*interview*
+docs/*prep*
